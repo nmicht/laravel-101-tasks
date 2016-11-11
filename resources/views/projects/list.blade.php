@@ -7,9 +7,13 @@
     <body>
         <h1>All projects</h1>
         <ul>
-            @foreach ($projects as $project)
-                <li>{{ $project }} <form method="delete" action="/tasks/{{}}"</li>
-            @endforeach
+            @forelse ($projects as $project)
+                <li>{{ $project->name }}</li>
+            @empty
+                <p>
+                    No hay proyectos
+                </p>
+            @endforelse
         </ul>
     </body>
 </html>

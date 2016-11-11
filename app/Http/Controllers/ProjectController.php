@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
+
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -17,13 +19,7 @@ class ProjectController extends Controller
     public function index()
     {
         //Estamos fingiendo las tareas
-        $projects = [
-            'proyecto 1',
-            'proyecto 2',
-            'proyecto 3',
-            'proyecto 4',
-            'proyecto 5'
-        ];
+        $projects = Project::all();
 
         return view('projects.list',compact('projects'));
     }
@@ -57,6 +53,8 @@ class ProjectController extends Controller
      */
     public function show($project)
     {
+        $project = Project::find($project);
+        
         return view('projects.show',compact('project'));
     }
 

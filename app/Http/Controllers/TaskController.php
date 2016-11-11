@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use DB;
+use App\Models\Task;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -17,8 +17,11 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //Obteniendo tareas de la BD
-        $tasks = DB::table('tasks')->get();
+        //Obteniendo tareas de la BD con query builder
+        //$tasks = DB::table('tasks')->get();
+
+        //Obtener todas las tareas con Eloquent
+        $tasks = Task::all();
 
         return view('tasks.list',compact('tasks'));
     }
@@ -41,7 +44,23 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
+        // Creo un task
+        // $task = new Task;
         //
+        // Asigno sus valores uno por uno
+        // $task->name = $request->name;
+        // $task->description = $request->description;
+        // $task->color = $request->color;
+        // $task->priority = $request->priority;
+        //
+        // Guardo el task
+        // $task->save();
+
+        //Creo y guardo el task usando el request completo
+        Task::create($request->all());
+
+        //Me redirijo a la lista de tasks
+        return redirect('tasks');
     }
 
     /**
@@ -50,11 +69,15 @@ class TaskController extends Controller
      * @param  int  $task
      * @return \Illuminate\Http\Response
      */
-    public function show($task)
+    public function show(Task $task)
     {
         //Obtengo el task de la base de datos
-        $task = DB::table('tasks')->where('id',$task)->first();
+        //$task = DB::table('tasks')->where('id',$task)->first();
 
+        //Obtener con Eloquent
+        //$task = Task::find($task);
+        //$task = Task::where('id',$task)->first();
+return $task;
         return view('tasks.show',compact('task'));
     }
 
@@ -64,7 +87,7 @@ class TaskController extends Controller
      * @param  int  $task
      * @return \Illuminate\Http\Response
      */
-    public function edit($task)
+    public function edit(Task $task)
     {
         return view('tasks.edit',compact('task'));
     }

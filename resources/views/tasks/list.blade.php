@@ -8,7 +8,7 @@
         <h1>All tasks</h1>
         <ul>
             @foreach ($tasks as $task)
-                <li>{{ $task->name }}</li>
+                <li><a href="/tasks/{{ $task->id }}/edit">{{ $task->name }}</a></li>
             @endforeach
         </ul>
     </body>

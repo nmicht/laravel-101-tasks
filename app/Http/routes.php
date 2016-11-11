@@ -12,13 +12,31 @@
 */
 
 //Rutas de tareas
+
+//Listar todos los tasks
 Route::get('tasks','TaskController@index');
+
+//Mostrar el formulario de creacion
 Route::get('tasks/create','TaskController@create');
-Route::post('tasks','TaskController@store'); //Crear
+
+//Crear el task
+Route::post('tasks','TaskController@store');
+
+//Muestra la vista de edicion
 Route::get('tasks/{task}/edit','TaskController@edit');
-Route::put('tasks/{task}','TaskController@update'); //Editar
+
+//Edita el task
+Route::put('tasks/{task}','TaskController@update');
+
+//Muestra un task
 Route::get('tasks/{task}','TaskController@show');
-Route::delete('tasks/{task}','TaskController@destroy'); //Eliminar
+
+//Elimina un task
+Route::delete('tasks/{task}','TaskController@destroy');
+
+//Definiendo el modelo para ligar las rutas con los modelos
+Route::model('task', 'App\Models\Task');
+Route::model('project', 'App\Models\Project');
 
 //Rutas de tareas
 Route::get('projects','ProjectController@index');

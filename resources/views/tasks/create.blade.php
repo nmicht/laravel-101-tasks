@@ -5,24 +5,25 @@
         <title>Create task</title>
     </head>
     <body>
-        <form class="" action="index.html" method="post">
+        <form action="/tasks" method="post">
+            {{ csrf_field() }}
             <div class="">
-                <label for="name">Field 1</label>
+                <label for="name">Name</label>
                 <input type="text" name="name" value="">
             </div>
             <div class="">
-                <label for="name">Field 2</label>
-                <input type="text" name="name" value="">
+                <label for="description">Description</label>
+                <input type="text" name="description" value="">
             </div>
             <div class="">
-                <label for="name">Field 3</label>
-                <input type="text" name="name" value="">
+                <label for="color">Color</label>
+                <input type="text" name="color" value="">
             </div>
             <div class="">
-                <label for="name">Field 4</label>
-                <input type="text" name="name" value="">
+                <label for="priority">Priority</label>
+                <input type="number" name="priority" value="">
             </div>
-            <button type="button" name="button">Create</button>
+            <button type="submit" name="button">Create</button>
         </form>
     </body>
 </html>
