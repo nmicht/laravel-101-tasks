@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\Project;
+
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -21,7 +23,7 @@ class TaskController extends Controller
         //$tasks = DB::table('tasks')->get();
 
         //Obtener todas las tareas con Eloquent
-        $tasks = Task::all();
+        $tasks = Task::all()->load('user');
 
         return view('tasks.list',compact('tasks'));
     }
@@ -33,7 +35,9 @@ class TaskController extends Controller
      */
     public function create()
     {
-        return view('tasks.create');
+        $projects = Project::all();
+
+        return view('tasks.create',compact('projects'));
     }
 
     /**
@@ -57,7 +61,10 @@ class TaskController extends Controller
         // $task->save();
 
         //Creo y guardo el task usando el request completo
-        Task::create($request->all());
+        $data = $request->all();
+        $data['user_id'] = 1;
+
+        Task::create($data);
 
         //Me redirijo a la lista de tasks
         return redirect('tasks');
@@ -77,7 +84,7 @@ class TaskController extends Controller
         //Obtener con Eloquent
         //$task = Task::find($task);
         //$task = Task::where('id',$task)->first();
-return $task;
+
         return view('tasks.show',compact('task'));
     }
 
@@ -99,9 +106,15 @@ return $task;
      * @param  int  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $task)
+    public function update(Request $request, Task $task)
     {
-        //
+        $task->name = $request->name;
+        $task->description = $request->description;
+        $task->color = $request->color;
+        $task->priority = $request->priority;
+        $task->save();
+
+        return redirect('/tasks');
     }
 
     /**

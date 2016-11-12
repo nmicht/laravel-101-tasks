@@ -10,5 +10,13 @@ class Task extends Model
     //masivas de asignación, como cuando hago el create con el request
     //completo, solo estos se van a asignar, todo lo demas que le
     //mande se va a ignorar.
-    protected $fillable = ['name','description','color','priority'];
+    protected $fillable = ['name','description','color','priority','project_id','user_id'];
+
+    public function user(){
+        return $this->belongsTo('App\Models\User');
+    }
+
+    public function project(){
+        return $this->belongsTo('App\Models\Project');
+    }
 }

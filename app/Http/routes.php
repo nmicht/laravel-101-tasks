@@ -32,11 +32,11 @@ Route::put('tasks/{task}','TaskController@update');
 Route::get('tasks/{task}','TaskController@show');
 
 //Elimina un task
-Route::delete('tasks/{task}','TaskController@destroy');
+Route::delete('tasks/{task}','TaskController@destroy'); //Eliminar
 
 //Definiendo el modelo para ligar las rutas con los modelos
-Route::model('task', 'App\Models\Task');
-Route::model('project', 'App\Models\Project');
+Route::model('task', '\App\Models\Task');
+Route::model('project', '\App\Models\Project');
 
 //Rutas de tareas
 Route::get('projects','ProjectController@index');

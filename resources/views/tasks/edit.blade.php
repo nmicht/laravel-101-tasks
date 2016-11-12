@@ -6,8 +6,9 @@
     </head>
     <body>
         <h1>You're editing task {{ $task->name }}</h1>
-        <form action="" method="post">
+        <form action="/tasks/{{ $task->id }}" method="post">
             {{ csrf_field() }}
+            {{ method_field('PUT') }}
             <div class="">
                 <label for="name">Name</label>
                 <input type="text" name="name" value="{{ $task->name}}">
@@ -16,7 +17,7 @@
                 <label for="description">Description</label>
                 <input type="text"
                        name="description"
-                       value="{{ $task->description}}">
+                       value="{{ $task->description }}">
             </div>
             <div class="">
                 <label for="color">Color</label>

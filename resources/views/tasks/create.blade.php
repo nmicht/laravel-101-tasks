@@ -23,6 +23,10 @@
                 <label for="priority">Priority</label>
                 <input type="number" name="priority" value="">
             </div>
+            @foreach($projects as $project)
+                <input type="radio" name="project_id" value="{{$project->id}}">
+                <label for="">{{$project->name}}</label>
+            @endforeach
             <button type="submit" name="button">Create</button>
         </form>
     </body>
