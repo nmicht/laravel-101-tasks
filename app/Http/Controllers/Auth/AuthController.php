@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Models\User;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -22,6 +22,15 @@ class AuthController extends Controller
     */
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+
+    //Agrego la ruta para cuando un usuario ya esta autenticado
+    protected $redirectPath = '/tasks';
+
+    //Agrego la ruta para cuando un usuario NO esta autenticado
+    protected $loginPath = '/auth/login';
+
+    protected $redirectAfterLogout = '/auth/login';
+
 
     /**
      * Create a new authentication controller instance.

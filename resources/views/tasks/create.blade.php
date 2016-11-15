@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Create task</title>
-    </head>
-    <body>
-        <form action="/tasks" method="post">
+@extends('layout')
+
+@section('content')
+       <form action="/tasks" method="post">
             {{ csrf_field() }}
             <div class="">
                 <label for="name">Name</label>
@@ -29,5 +25,4 @@
             @endforeach
             <button type="submit" name="button">Create</button>
         </form>
-    </body>
-</html>
+@stop

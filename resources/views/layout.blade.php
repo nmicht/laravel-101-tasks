@@ -6,6 +6,12 @@
 
     </head>
     <body>
+        <header>
+            @if( Auth::check() )
+                Bienvenido, {{ Auth::user()->name }} | <a href="/auth/logout">Salir</a>
+            @endif
+        </header>
+
         @yield('content')
 
             <aside class="col-md-5">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Models\Task;
 use App\Models\Project;
 
@@ -12,6 +13,10 @@ use App\Http\Controllers\Controller;
 
 class TaskController extends Controller
 {
+    // function __construct(){
+    //     $this->middleware('auth');
+    //
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -62,6 +67,9 @@ class TaskController extends Controller
 
         //Creo y guardo el task usando el request completo
         $data = $request->all();
+
+        //esto esta harcodeado feamente
+        // @todo corregir para que use la sesión
         $data['user_id'] = 1;
 
         Task::create($data);

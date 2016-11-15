@@ -18,8 +18,10 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //Estamos fingiendo las tareas
         $projects = Project::all();
+
+        //Cargamos las tareas y los usuarios de esas tareas
+        $projects->load('tasks.user');
 
         return view('projects.list',compact('projects'));
     }
@@ -54,7 +56,7 @@ class ProjectController extends Controller
     public function show($project)
     {
         $project = Project::find($project);
-        
+
         return view('projects.show',compact('project'));
     }
 

@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Show task</title>
-    </head>
-    <body>
+@extends('layout')
+
+@section('content')
         <h1>This is the task "{{ $task->name }}"</h1>
         <form class="" action="index.html" method="post">
             <div class="">
@@ -24,5 +20,3 @@
                 <input type="text" name="name" value="" disabled>
             </div>
         </form>
-    </body>
-</html>

@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Edit task</title>
-    </head>
-    <body>
+@extends('layout')
+
+@section('content')
         <h1>You're editing task {{ $task->name }}</h1>
         <form action="/tasks/{{ $task->id }}" method="post">
             {{ csrf_field() }}
@@ -29,6 +25,4 @@
             </div>
             <button type="submit" name="button">Edit</button>
         </form>
-        </form>
-    </body>
-</html>
+@stop

@@ -11,28 +11,41 @@
 |
 */
 
+
+
 //Rutas de tareas
 
 //Listar todos los tasks
-Route::get('tasks','TaskController@index');
+// Route::get('tasks',[
+//     'middleware' => 'auth',
+//     'uses' => 'TaskController@index'
+// ]);
 
-//Mostrar el formulario de creacion
-Route::get('tasks/create','TaskController@create');
+Route::group([
+    'middleware' => 'auth',
+    'prefix' => 'tasks'
+], function(){
+    //Listar todos los tasks
+    Route::get('','TaskController@index');
 
-//Crear el task
-Route::post('tasks','TaskController@store');
+    //Mostrar el formulario de creacion
+    Route::get('create','TaskController@create');
 
-//Muestra la vista de edicion
-Route::get('tasks/{task}/edit','TaskController@edit');
+    //Crear el task
+    Route::post('','TaskController@store');
 
-//Edita el task
-Route::put('tasks/{task}','TaskController@update');
+    //Muestra la vista de edicion
+    Route::get('{task}/edit','TaskController@edit');
 
-//Muestra un task
-Route::get('tasks/{task}','TaskController@show');
+    //Edita el task
+    Route::put('{task}','TaskController@update');
 
-//Elimina un task
-Route::delete('tasks/{task}','TaskController@destroy'); //Eliminar
+    //Muestra un task
+    Route::get('{task}','TaskController@show');
+
+    //Elimina un task
+    Route::delete('{task}','TaskController@destroy'); //Eliminar
+});
 
 //Definiendo el modelo para ligar las rutas con los modelos
 Route::model('task', '\App\Models\Task');
@@ -46,3 +59,13 @@ Route::get('projects/{project}/edit','ProjectController@edit')->where('project',
 Route::put('projects/{project}','ProjectController@update')->where('project','[0-9]+'); //Editar
 Route::get('projects/{project}','ProjectController@show')->where('project','[0-9]+');
 Route::delete('projects/{project}','ProjectController@destroy')->where('project','[0-9]+'); //Eliminar
+
+
+// Authentication Routes...
+Route::get('auth/login', 'Auth\AuthController@getLogin');
+Route::post('auth/login', 'Auth\AuthController@postLogin');
+Route::get('auth/logout', 'Auth\AuthController@getLogout');
+
+// Registration Routes...
+Route::get('auth/register', 'Auth\AuthController@getRegister');
+Route::post('auth/register', 'Auth\AuthController@postRegister');
