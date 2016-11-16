@@ -1,6 +1,7 @@
 @extends('layout')
 
 @section('content')
+{{ session()->get('algo') }}
         <h1>This is the task "{{ $task->name }}"</h1>
         <form class="" action="index.html" method="post">
             <div class="">

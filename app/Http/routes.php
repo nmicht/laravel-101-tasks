@@ -32,19 +32,28 @@ Route::group([
     Route::get('create','TaskController@create');
 
     //Crear el task
-    Route::post('','TaskController@store');
+    Route::post('',[
+        'middleware' => 'App\Http\Middleware\Validation',
+        'uses' => 'TaskController@store'
+    ]);
 
     //Muestra la vista de edicion
     Route::get('{task}/edit','TaskController@edit');
 
     //Edita el task
-    Route::put('{task}','TaskController@update');
+    Route::put('{task}',[
+        'middleware' => 'App\Http\Middleware\Validation',
+        'uses' => 'TaskController@update'
+    ]);
 
     //Muestra un task
     Route::get('{task}','TaskController@show');
 
     //Elimina un task
-    Route::delete('{task}','TaskController@destroy'); //Eliminar
+    Route::delete('{task}',[
+        'middleware' => 'App\Http\Middleware\Validation',
+        'uses' => 'TaskController@destroy'
+    ]);
 });
 
 //Definiendo el modelo para ligar las rutas con los modelos

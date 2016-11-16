@@ -21,7 +21,11 @@ class AuthController extends Controller
     |
     */
 
-    use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+    use AuthenticatesAndRegistersUsers
+    {
+        getLogout as authLogout;
+    }
+    use ThrottlesLogins;
 
     //Agrego la ruta para cuando un usuario ya esta autenticado
     protected $redirectPath = '/tasks';
@@ -70,5 +74,10 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    public function getLogout(){
+        session()->flash('logout_msg','Se cerró');
+        return $this->authLogout();
     }
 }

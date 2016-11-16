@@ -7,6 +7,7 @@ use App\Models\Task;
 use App\Models\Project;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreTaskRequest;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -24,6 +25,8 @@ class TaskController extends Controller
      */
     public function index()
     {
+        session()->put('algo','este es el valor');
+
         //Obteniendo tareas de la BD con query builder
         //$tasks = DB::table('tasks')->get();
 
@@ -48,10 +51,10 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\StoreTaskRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request)
     {
         // Creo un task
         // $task = new Task;
@@ -65,14 +68,28 @@ class TaskController extends Controller
         // Guardo el task
         // $task->save();
 
+        //Validamos el formulario
+        // $messages = [
+        //         'name.required' => 'El campo :atribute es requerido.',
+        //     'priority.required' =>
+        // ]
+        // $this->validate($request,[
+        //     'name' => 'alpha_num|required|max:255|unique:tasks',
+        //     'priority' => 'required'
+        // ],$messages);
+
         //Creo y guardo el task usando el request completo
         $data = $request->all();
 
         //esto esta harcodeado feamente
         // @todo corregir para que use la sesión
-        $data['user_id'] = 1;
+        $data['user_id'] = Auth::user()->id;
 
         Task::create($data);
+
+        //Defino el mensaje flash de que si se creó
+        session()->flash('flash_msg','Se creó exitosamente la tarea &lt;strong&gt;'.$data['name'].'&lt;/strong&gt;');
+        session()->flash('flash_type','success');
 
         //Me redirijo a la lista de tasks
         return redirect('tasks');
@@ -110,11 +127,11 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\StoreTaskRequest  $request
      * @param  int  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(StoreTaskRequest $request, Task $task)
     {
         $task->name = $request->name;
         $task->description = $request->description;
@@ -131,8 +148,10 @@ class TaskController extends Controller
      * @param  int  $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy($task)
+    public function destroy(Task $task)
     {
-        //
+        $task->delete();
+
+        return back();
     }
 }
