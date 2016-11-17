@@ -78,3 +78,17 @@ Route::get('auth/logout', 'Auth\AuthController@getLogout');
 // Registration Routes...
 Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
+
+/*
+1. Crear la ruta para ver las cosas del usuario
+2. Crear el controlador para las cosas del usuario
+3. En el controlador ejecutar los metodos para Obtener
+ - tareas del usuario loggeado
+ - tareas del colaborador loggeado
+4. Crear una vista que muestre las cositas del punto 3
+ */
+
+Route::get('',[
+    'middleware' => 'auth',
+    'uses' => 'DashboardController@index'
+]);

@@ -12,9 +12,14 @@
 <h1>All tasks using layouts</h1>
 <ul>
     @foreach ($tasks as $task)
-        <li><a href="/tasks/{{ $task->id }}">{{ $task->name }}</a> - Creador: {{ $task->user->name }} <form action="/tasks/{{ $task->id }}" method="post">{{ method_field('DELETE')}} {{ csrf_field() }}<button type="submit" name="button">Eliminar</button>
+        <li>
+            <a href="/tasks/{{ $task->id }}">{{ $task->name }}</a> - Creador: {{ $task->user->name }}
 
-        </form></li>
+            <form action="/tasks/{{ $task->id }}" method="post">{{ method_field('DELETE')}} {{ csrf_field() }}
+                <button type="submit" name="button">Eliminar</button>
+            </form>
+
+        </li>
     @endforeach
 </ul>
 @stop

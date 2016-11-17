@@ -73,10 +73,10 @@ class TaskController extends Controller
         //         'name.required' => 'El campo :atribute es requerido.',
         //     'priority.required' =>
         // ]
-        // $this->validate($request,[
-        //     'name' => 'alpha_num|required|max:255|unique:tasks',
-        //     'priority' => 'required'
-        // ],$messages);
+        $this->validate($request,[
+            'name' => 'alpha_num|required|max:255|unique:tasks',
+            'priority' => 'required'
+        ],$messages);
 
         //Creo y guardo el task usando el request completo
         $data = $request->all();

@@ -19,4 +19,8 @@ class Task extends Model
     public function project(){
         return $this->belongsTo('App\Models\Project');
     }
+
+    public function collaborators(){
+        return $this->belongsToMany('App\Models\User');
+    }
 }

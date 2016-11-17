@@ -28,7 +28,7 @@ class AuthController extends Controller
     use ThrottlesLogins;
 
     //Agrego la ruta para cuando un usuario ya esta autenticado
-    protected $redirectPath = '/tasks';
+    protected $redirectPath = '/';
 
     //Agrego la ruta para cuando un usuario NO esta autenticado
     protected $loginPath = '/auth/login';

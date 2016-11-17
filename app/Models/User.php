@@ -37,5 +37,19 @@ class User extends Model implements AuthenticatableContract,
      */
     protected $hidden = ['password', 'remember_token'];
 
+    /**
+     * Método para obtener las tareas relacionadas con el usuario colaboración
+     * @return [type] [description]
+     */
+    public function collaboratingTasks(){
+        return $this->belongsToMany('App\Models\Task')->withPivot('assigned_at','allow');
+    }
 
+    /**
+     * Método para devolver las tareas marcadas como creadas por el usuario
+     * @return [type] [description]
+     */
+    public function ownedTasks(){
+        return $this->hasMany('App\Models\Task');
+    }
 }
