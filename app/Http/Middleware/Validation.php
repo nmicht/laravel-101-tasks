@@ -17,13 +17,13 @@ class Validation
     public function handle($request, Closure $next)
     {
         //$request['name'] = 'esta es una nueva tarea';
-        $now = new Carbon();
+        // $now = new Carbon();
+        //
+        // if() {
+        //     session()->flash('flash_msg','No se puede eliminar el task pues ya pasó su tiempo permitido');
+        //     return back();
+        // }
 
-        if() {
-            session()->flash('flash_msg','No se puede eliminar el task pues ya pasó su tiempo permitido');
-            return back();
-        }
-        
         return $next($request);
     }
 }

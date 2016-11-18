@@ -13,7 +13,8 @@
 <ul>
     @foreach ($tasks as $task)
         <li>
-            <a href="/tasks/{{ $task->id }}">{{ $task->name }}</a> - Creador: {{ $task->user->name }}
+            <a href="/tasks/{{ $task->id }}">{{ $task->name }}</a> - Creador: {{ $task->user->name }} | 
+            Priority: {{ $task->priority }}
 
             <form action="/tasks/{{ $task->id }}" method="post">{{ method_field('DELETE')}} {{ csrf_field() }}
                 <button type="submit" name="button">Eliminar</button>

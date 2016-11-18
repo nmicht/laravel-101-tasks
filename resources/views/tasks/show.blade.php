@@ -3,21 +3,22 @@
 @section('content')
 {{ session()->get('algo') }}
         <h1>This is the task "{{ $task->name }}"</h1>
-        <form class="" action="index.html" method="post">
-            <div class="">
-                <label for="name">Field 1</label>
-                <input type="text" name="name" value="" disabled>
-            </div>
-            <div class="">
-                <label for="name">Field 2</label>
-                <input type="text" name="name" value="" disabled>
-            </div>
-            <div class="">
-                <label for="name">Field 3</label>
-                <input type="text" name="name" value="" disabled>
-            </div>
-            <div class="">
-                <label for="name">Field 4</label>
-                <input type="text" name="name" value="" disabled>
-            </div>
-        </form>
+        <p>
+            Created by: {{$task->user->name}}
+        </p>
+        <p>
+            {{$task->description}}
+        </p>
+        <h2>Collaborators</h2>
+        <ul>
+            @foreach ($task->collaborators as $user)
+                <li>{{$user->name}} | since {{ $user->pivot->assigned_at }}</li>
+            @endforeach
+        </ul>
+        <hr>
+        <button type="button" name="button">Edit</button>
+        @can('delete-task',$task)
+            <button type="button" name="button">Delete</button>
+        @endcan
+
+@stop

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use Gate;
 use App\Models\Task;
 use App\Models\Project;
 
@@ -73,22 +74,32 @@ class TaskController extends Controller
         //         'name.required' => 'El campo :atribute es requerido.',
         //     'priority.required' =>
         // ]
-        $this->validate($request,[
-            'name' => 'alpha_num|required|max:255|unique:tasks',
-            'priority' => 'required'
-        ],$messages);
+        // $this->validate($request,[
+        //     'name' => 'alpha_num|required|max:255|unique:tasks',
+        //     'priority' => 'required'
+        // ],$messages);
 
         //Creo y guardo el task usando el request completo
         $data = $request->all();
 
         //esto esta harcodeado feamente
         // @todo corregir para que use la sesión
-        $data['user_id'] = Auth::user()->id;
+        //$data['user_id'] = Auth::user()->id;
 
-        Task::create($data);
+        $task = Task::create($data);
+
+        //Asignando el creador pero como parte de la relación
+        // $task->user()->attach(Auth::user()->id);
+        //
+        // //Asignando al creador como colaborador
+        // $task->collaborators()->attach(Auth::user()->id,['assigned_at'=>'2016-11-16','allow'=>3]);
+        //
+        // $task->collaborators()->saveMany(Auth::user());
+        //
+        // $task->collaborators()->attach($request->collaborators);
 
         //Defino el mensaje flash de que si se creó
-        session()->flash('flash_msg','Se creó exitosamente la tarea &lt;strong&gt;'.$data['name'].'&lt;/strong&gt;');
+        session()->flash('flash_msg','Se creó exitosamente la tarea'.$data['name']);
         session()->flash('flash_type','success');
 
         //Me redirijo a la lista de tasks
@@ -109,6 +120,8 @@ class TaskController extends Controller
         //Obtener con Eloquent
         //$task = Task::find($task);
         //$task = Task::where('id',$task)->first();
+
+        $task->load('user','collaborators');
 
         return view('tasks.show',compact('task'));
     }
@@ -150,8 +163,21 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        $task->delete();
+        //Le pregunto a mi gate si no puedo hacer lo que quiero
+        //le mando la tarea porque la necesita para validar
+        //no le mando el usuario porque ya es parte de mi auth provider
+        // if (Gate::denies('delete-task', $task)) {
+        //     session()->flash('flash_msg','You shall no pass');
+        //     session()->flash('flash_type','danger');
+        //     return back();
+        // }
 
+        if (Auth::user()->cannot('delete-task',$task)){
+            //Manda vista de error que ya se tiene dentro de resources/views/errors
+            abort(403,'Acción no permitida');
+        }
+
+        $task->delete();
         return back();
     }
 }
