@@ -6,6 +6,7 @@ use Auth;
 use Gate;
 use App\Models\Task;
 use App\Models\Project;
+use App\Models\User;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreTaskRequest;
@@ -26,13 +27,21 @@ class TaskController extends Controller
      */
     public function index()
     {
-        session()->put('algo','este es el valor');
+        //Probando sesiones
+        //session()->put('algo','este es el valor');
 
         //Obteniendo tareas de la BD con query builder
         //$tasks = DB::table('tasks')->get();
 
         //Obtener todas las tareas con Eloquent
-        $tasks = Task::all()->load('user');
+        $tasks = Task::all()->load('user','collaborators');
+
+        foreach ($tasks as &$task) {
+            $task->owned = false;
+            if ($task->user_id == Auth::user()->id) {
+                    $task->owned = true;
+                }
+        }
 
         return view('tasks.list',compact('tasks'));
     }
@@ -44,9 +53,12 @@ class TaskController extends Controller
      */
     public function create()
     {
+        //Obtengo los proyectos y los usuarios para poder mostrarlos
+        //en la vista y que se puedan elegir para asignarlos a la tarea
         $projects = Project::all();
+        $users = User::all();
 
-        return view('tasks.create',compact('projects'));
+        return view('tasks.create',compact('projects','users'));
     }
 
     /**
@@ -89,14 +101,14 @@ class TaskController extends Controller
         $task = Task::create($data);
 
         //Asignando el creador pero como parte de la relación
-        // $task->user()->attach(Auth::user()->id);
+        $task->user()->attach(Auth::user()->id);
         //
         // //Asignando al creador como colaborador
         // $task->collaborators()->attach(Auth::user()->id,['assigned_at'=>'2016-11-16','allow'=>3]);
         //
         // $task->collaborators()->saveMany(Auth::user());
         //
-        // $task->collaborators()->attach($request->collaborators);
+        $task->collaborators()->attach($data['collaborators']);
 
         //Defino el mensaje flash de que si se creó
         session()->flash('flash_msg','Se creó exitosamente la tarea'.$data['name']);
@@ -121,7 +133,7 @@ class TaskController extends Controller
         //$task = Task::find($task);
         //$task = Task::where('id',$task)->first();
 
-        $task->load('user','collaborators');
+        $task->load('user','collaborators','project');
 
         return view('tasks.show',compact('task'));
     }

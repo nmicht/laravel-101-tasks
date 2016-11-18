@@ -1,7 +1,6 @@
 @extends('layout')
 
 @section('content')
-
 @if( session()->has('flash_msg') )
 <div class="alert alert-{{ session()->get('flash_type') }} alert-dismissible" role="alert">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -13,8 +12,10 @@
 <ul>
     @foreach ($tasks as $task)
         <li>
-            <a href="/tasks/{{ $task->id }}">{{ $task->name }}</a> - Creador: {{ $task->user->name }} | 
-            Priority: {{ $task->priority }}
+            @if($task->owned)
+            <span class="glyphicon glyphicon-user"></span>
+            @endif
+            <a href="/tasks/{{ $task->id }}">{{ $task->name }}</a> | {{ $task->created_at->diffForHumans() }}
 
             <form action="/tasks/{{ $task->id }}" method="post">{{ method_field('DELETE')}} {{ csrf_field() }}
                 <button type="submit" name="button">Eliminar</button>
