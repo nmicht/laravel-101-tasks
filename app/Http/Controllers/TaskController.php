@@ -34,11 +34,18 @@ class TaskController extends Controller
         //$tasks = DB::table('tasks')->get();
 
         //Obtener todas las tareas con Eloquent
-        $tasks = Task::all()->load('user','collaborators');
+        $tasks = Task::priority()
+                     ->sinceDays(5)
+                     ->paginate(10);
 
-        foreach ($tasks as &$task) {
+
+        $tasks->load('user','collaborators');
+        
+    foreach ($tasks as &$task) {
             $task->owned = false;
-            if ($task->user_id == Auth::user()->id) {
+            if ($task->user_id == Auth::user()->id ||
+                $task->collaborators->find(Auth::user()->id)) {
+                    //para buscar dentro de un arreglo de objetos se debe tratar como una colección
                     $task->owned = true;
                 }
         }
@@ -96,19 +103,22 @@ class TaskController extends Controller
 
         //esto esta harcodeado feamente
         // @todo corregir para que use la sesión
-        //$data['user_id'] = Auth::user()->id;
+        $data['user_id'] = Auth::user()->id;
 
         $task = Task::create($data);
 
         //Asignando el creador pero como parte de la relación
-        $task->user()->attach(Auth::user()->id);
+        //$task->user->attach(Auth::user()->id);
         //
         // //Asignando al creador como colaborador
-        // $task->collaborators()->attach(Auth::user()->id,['assigned_at'=>'2016-11-16','allow'=>3]);
+            // $task->collaborators()->attach(Auth::user()->id,['assigned_at'=>'2016-11-16','allow'=>3]);
         //
         // $task->collaborators()->saveMany(Auth::user());
         //
-        $task->collaborators()->attach($data['collaborators']);
+        if (isset($data['collaborators']) ) {
+
+            $task->collaborators()->attach($data['collaborators']);
+        }
 
         //Defino el mensaje flash de que si se creó
         session()->flash('flash_msg','Se creó exitosamente la tarea'.$data['name']);

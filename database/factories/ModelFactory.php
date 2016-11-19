@@ -28,10 +28,10 @@ $factory->define(App\Models\Task::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->word,
         'description' => $faker->paragraph,
-        'color' => '#00000',
-        'priority' => $faker->numberBetween($min = 1, $max = 5),
-        'project_id' => $faker->numberBetween($min = 1, $max = 5),
-        'user_id' => Auth::user()->id,
+        'color' => $faker->hexcolor,
+        'priority' => $faker->numberBetween($min = 0, $max = 5),
+        'project_id' => $faker->numberBetween($min = 1, $max = 21),
+        'user_id' => $faker->numberBetween($min = 1, $max = 4),
     ];
 });
 

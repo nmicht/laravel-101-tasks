@@ -11,6 +11,9 @@
         <p>
             {{$task->project->name}}
         </p>
+        <p>
+            Color: {{$task->color}}
+        </p>
         <h2>Collaborators</h2>
         <ul>
             @foreach ($task->collaborators as $collaborator)

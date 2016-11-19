@@ -40,7 +40,9 @@
                 <label class="col-lg-2 control-label" for="collaborators">Collaborators</label>
                 <select class="form-control" name="collaborators[]" multiple size=10>
                     @foreach ($users as $user)
-                    <option value="{{$user->id}}">
+                    <option value="{{$user->id}}"
+                        {{ collect(old('collaborators'))->contains($user->id) ?
+                        "selected" : "" }}>
                         {{$user->name}}
                     </option>
                     @endforeach

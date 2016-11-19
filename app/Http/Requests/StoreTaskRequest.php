@@ -26,7 +26,7 @@ class StoreTaskRequest extends Request
         return [
             'name' => 'alpha_num|required|max:255|unique:tasks',
             'priority' => 'required',
-            'color' => 'regex:/#[A-F0-9]{6}/'
+            'color' => 'regex:/#[a-fA-F0-9]{6}/'
         ];
     }
 

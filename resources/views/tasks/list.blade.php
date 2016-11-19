@@ -15,7 +15,7 @@
             @if($task->owned)
             <span class="glyphicon glyphicon-user"></span>
             @endif
-            <a href="/tasks/{{ $task->id }}">{{ $task->name }}</a> | {{ $task->created_at->diffForHumans() }}
+            <a href="/tasks/{{ $task->id }}">{{ $task->name }}</a> | {{ $task->priority }} | {{ $task->created_at->diffForHumans() }}
 
             <form action="/tasks/{{ $task->id }}" method="post">{{ method_field('DELETE')}} {{ csrf_field() }}
                 <button type="submit" name="button">Eliminar</button>
@@ -24,4 +24,7 @@
         </li>
     @endforeach
 </ul>
+
+{!! $tasks->render() !!}
+
 @stop

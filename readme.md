@@ -6,7 +6,7 @@
  1. Los tasks tienen un nombre, una descripción, prioridad, creador, y colaboradores.
  1. Al crear la tarea se pueden asignar colaboradores tomandose de una lista de todos los usuarios disponibles.
  1. Validar los campos de los tasks
- 1. En caso de errores no perder la información *falta el arreglo*
+ 1. En caso de errores no perder la información
  1. Al crear las tareas, el creador se asigna automáticamente tomando el usuario con sesión activa.
  1. El sistema debe tener un set de al menos 10 tasks dummies.
  1. En el listado se debe poder acceder a acciones como edición y eliminación solo si soy el dueño de la tarea.
