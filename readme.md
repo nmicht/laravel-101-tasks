@@ -1,5 +1,5 @@
 # Tasks Project
-## Proyecto para manejo de tareas y gestión de proyectos como practica del taller de Laravel.
+## Proyecto para manejo de tareas y gestión de proyectos como practica del taller de Laravel 101.
 
 ### Funciones
 - **CRUD tasks**
